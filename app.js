@@ -2,36 +2,67 @@ const Discord = require('discord.js');
 require('dotenv').config();
 
 const client = new Discord.Client();
+let connection, dispatcher, guild, targetRole, currChannelID;
+let targetRoleName = "Target";
 
-let connection, dispatcher;
-
-client.on('ready', () => {
+client.on('ready', () => { 
     console.log('Bot is ready');
-    /*
-    const channelID = "859279246920253555";
-    const voiceChannel = client.voice.joinChannel(channelID);
-    voiceChannel.join()
-        .then(connection => console.log('Connected!'))
-        .catch(console.error);
-    */
-
+    guild = client.guilds.cache.get("859279246390984706");
+    targetRole = guild.roles.cache.find((role) => {
+        return role.name == targetRoleName;
+    });
 });
 
-client.on('message', async message => {
-	// Join the same voice channel of the author of the message
-	if (message.content === 'start' && message.member.voice.channel) {
-		connection = await message.member.voice.channel.join();
-        //dispatcher = connection.play('passion.mp3');
-	}
-});
+client.on('voiceStateUpdate', async (oldState, newState) => {
+    if (newState.channelID === null) { 
+        console.log('User left channel', oldState.channelID);
+        let member = oldState.member;
+        if(member.roles.cache.has(targetRole.id)) {
+            channel = client.channels.cache.get(currChannelID);
+            if(channel) {
+                await channel.leave();
+            }
+            currChannelID = null;
+        }
+    }
+    else if(oldState.channelID === null) {
+        console.log('user joined channel', oldState.channelID, newState.channelID);
+        let member = newState.member;
+        if(member.roles.cache.has(targetRole.id)) {
+            console.log("Resetting new channel");
+            currChannelID = newState.channelID;
+            channel = client.channels.cache.get(newState.channelID);
+            connection = await channel.join();
+        }
+    }
+    else {
+        console.log('user moved channels', oldState.channelID, newState.channelID);
+        let member = newState.member;
+        if(member.roles.cache.has(targetRole.id)) {
+            console.log("Resetting new channel");
+            currChannelID = newState.channelID;
+            await client.channels.cache.get(currChannelID).leave();
+            currChannelID = null;
+            channel = client.channels.cache.get(newState.channelID);
+            connection = await channel.join();
+        }
+    }
+})
 
-client.on('guildMemberSpeaking', async (_, speaking) => {
+client.on('guildMemberSpeaking', async (member, speaking) => {
     console.log("Speaking")
-    dispatcher = connection.play('passion.mp3');
-    if (dispatcher && !speaking.bitfield) {
-        dispatcher = dispatcher.destroy()
+
+    if(member.roles.cache.has(targetRole.id)) {
+        dispatcher = connection.play('passion.mp3');
+        dispatcher.on('finish', () => {
+            console.log("replay");
+            dispatcher = connection.play('passion.mp3');
+        });
+        if (dispatcher && !speaking.bitfield) {
+            dispatcher = dispatcher.destroy()
+        }
     }
 });
 
 client.login(process.env.BOT_TOKEN)
-
+process.on('unhandledRejection', console.log)
