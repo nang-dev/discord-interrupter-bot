@@ -51,10 +51,10 @@ class Interrupter {
     guildMemberSpeakingHandler(member, speaking) {
         console.log("Speaking")
         if (member.roles.cache.has(this.targetRole.id)) {
-            this.dispatcher = this.connection.play('passion.mp3');
+            this.dispatcher = this.connection.play('./passion.mp3');
             this.dispatcher.on('finish', () => {
                 console.log("replay");
-                this.dispatcher = this.connection.play('passion.mp3');
+                this.dispatcher = this.connection.play('./passion.mp3');
             });
             if (this.dispatcher && !speaking.bitfield) {
                 this.dispatcher = this.dispatcher.destroy()
