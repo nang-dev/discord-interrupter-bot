@@ -63,6 +63,7 @@ class Interrupter {
     }
 }
 
+// Event: Init ready
 client.on('ready', () => { 
     console.log('Bot is ready');
     let guilds = client.guilds.cache.map(guild => guild.id);
