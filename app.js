@@ -1,3 +1,12 @@
+/* 
+ * app.js is the main file for the Interrupter's functionality
+ *
+ * The bot will listen to events from Discord and talk over user with
+ * the role "Target"
+ * 
+ * Made by: @nathan-149
+*/
+
 const Discord = require('discord.js');
 require('dotenv').config();
 
@@ -28,7 +37,7 @@ class Interrupter {
             }
         }
         else if (oldState.channelID === null) {
-            console.log('user joined channel', oldState.channelID, newState.channelID);
+            console.log('User joined channel', oldState.channelID, newState.channelID);
             let member = newState.member;
             if (member.roles.cache.has(this.targetRole.id)) {
                 console.log("Resetting new channel");
@@ -37,10 +46,9 @@ class Interrupter {
                 this.connection = await channel.join();
             }
         } else {
-            console.log('user moved channels', oldState.channelID, newState.channelID);
+            console.log('User moved channels from ', oldState.channelID, ' to ', newState.channelID);
             let member = newState.member;
             if (member.roles.cache.has(this.targetRole.id)) {
-                console.log("Resetting new channel");
                 this.currChannelID = newState.channelID;
                 client.channels.cache.get(this.currChannelID).leave();
                 let channel = client.channels.cache.get(newState.channelID);
@@ -49,11 +57,11 @@ class Interrupter {
         }
     }
     guildMemberSpeakingHandler(member, speaking) {
-        console.log("Speaking")
+        console.log("Interrupting")
         if (member.roles.cache.has(this.targetRole.id)) {
             this.dispatcher = this.connection.play('./passion.mp3');
+            // Replay audio if necessary
             this.dispatcher.on('finish', () => {
-                console.log("replay");
                 this.dispatcher = this.connection.play('./passion.mp3');
             });
             if (this.dispatcher && !speaking.bitfield) {
@@ -76,7 +84,7 @@ client.on('ready', () => {
         let interrupter = new Interrupter(guildID, targetRole);
         interrupterMap.set(guildID, interrupter);
     }
-    console.log("Done!")
+    console.log("Setup Complete")
 });
 
 // Event: User changes channel
@@ -115,7 +123,7 @@ client.on("guildDelete", guild => {
     console.log(interrupterMap);
 })
 
-// todo: command to change mp3
+// Todo: command to change mp3
 
 client.login(process.env.BOT_TOKEN)
 process.on('unhandledRejection', console.log)
