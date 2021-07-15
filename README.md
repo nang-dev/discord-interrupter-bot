@@ -8,7 +8,7 @@
 Like the Donnie Thornberry Discord Bot from TikTok, but public, for your use.  
 
 ## Install
-Install by clicking here: https://discord.com/api/oauth2/authorize?client_id=859285612548456468&permissions=3147776&scope=bot
+To install, simply click here: https://discord.com/api/oauth2/authorize?client_id=859285612548456468&permissions=3147776&scope=bot
 
 ## How To Use
 To use, simply add a role named "**Target**". Any user with this role will be targeted and interrupted when they talk.
