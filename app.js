@@ -28,6 +28,12 @@ class Interrupter {
     }
 
     async voiceStateUpdateHandler(oldState, newState) {
+        if (this.targetRole == undefined) {
+            this.targetRole = this.guild.roles.cache.find((role) => {
+                return role.name == targetRoleName;
+            });
+            console.log(this.targetRole);
+        }
         if (newState.channelID === null) { 
             console.log('User left channel', oldState.channelID);
             let member = oldState.member;
@@ -113,11 +119,10 @@ client.on('ready', () => {
         let targetRole = guild.roles.cache.find((role) => {
             return role.name == targetRoleName;
         });
-        let interrupter = new Interrupter(guildID, targetRole);
+        let interrupter = new Interrupter(guild, targetRole);
         interrupterMap.set(guildID, interrupter);
     }
     for (let i = 0; i < soundFolder.length; i++) {
-        console.log(soundFolder[i].split('.')[0]);
         validSounds.add(soundFolder[i].split('.')[0]);
     }
     console.log("Setup Complete")
