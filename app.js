@@ -92,7 +92,8 @@ class Interrupter {
                              'and I will talk over the user that has the role.\n' +
                              'Valid commands: \n' +
                              'changeSound [' + [...validSounds].join('/') + ']\n' +
-                             'help'
+                             'help\n' +
+                             'Ex. !interrupter changeSound donnie'
                             );
                 break;
             default:
