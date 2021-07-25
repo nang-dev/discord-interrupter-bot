@@ -1,7 +1,7 @@
 ﻿
 # Discord Interrupter App 👾
-
-![Screenshot](screenshot.png)
+![Logo](photos/logo.png)
+![Screenshot](photos/screenshot.png)
 
 ### A discord bot that interrupts a target when they talk.
  
@@ -12,8 +12,8 @@ Like the **Donnie Thornberry Discord Bot** from TikTok, except public, for your 
 
 ## How To Use ⭐️
 
-### To use, simply add a role named "**Target**". Any user with this role will be targeted and interrupted when they talk.
-![Target](role.png)
+### To use, simply add a role named "**Target**". Any user with this role will be targeted and interrupted when they speak in any voice chat.
+![Target](photos/role.png)
 
 ### Commands (prefix is !interrupter):
 
