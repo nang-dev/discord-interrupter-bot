@@ -27,9 +27,10 @@ class Interrupter {
         this.sound = 'passion'
     }
 
-    async voiceStateUpdateHandler(oldState, newState) {
-        if (this.targetRole == undefined) {
-            this.targetRole = this.guild.roles.cache.find((role) => {
+    async voiceStateUpdateHandler(oldState, newState) { 
+         if (this.targetRole == undefined) {
+            let aState = (oldState === null) ? newState : oldState;
+            this.targetRole = aState.guild.roles.cache.find((role) => {
                 return role.name == targetRoleName;
             });
             console.log(this.targetRole);
@@ -153,6 +154,7 @@ client.on("guildCreate", async guild => {
     let targetRole = guild.roles.cache.find((role) => {
         return role.name == targetRoleName;
     });
+    console.log("new target: " + targetRole);
     let interrupter = new Interrupter(guild.id, targetRole);
     interrupterMap.set(guild.id, interrupter);
 })
