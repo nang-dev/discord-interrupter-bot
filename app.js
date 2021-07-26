@@ -88,7 +88,7 @@ class Interrupter {
                 this.changeSoundCommandHandler(channel, commands.splice(1));
                 break;
             case "help":
-                channel.send('Hi! Im the Interrupter Bot. Add a role named "Target"' +
+                channel.send('Hi! I\'m the Interrupter Bot. Add a role named "Target"' +
                              'and I will talk over the user that has the role.\n' +
                              'Valid commands: \n' +
                              'changeSound [' + [...validSounds].join('/') + ']\n' +
