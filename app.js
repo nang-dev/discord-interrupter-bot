@@ -83,7 +83,17 @@ class Interrupter {
         }
     }
     async commandHandler(channel, commands) {
-        switch(commands[0]) {
+        if (commands.length == 0) {
+            channel.send('Hi! I\'m the Interrupter Bot. Add a role named "Target"' +
+                             'and I will talk over the user that has the role.\n' +
+                             'Valid commands: \n' +
+                             'changeSound [' + [...validSounds].join('/') + ']\n' +
+                             'help\n' +
+                             'Ex. /interrupter changeSound donnie'
+                            );
+            return;
+        }
+        switch (commands[0]) {
             case "changeSound":
                 this.changeSoundCommandHandler(channel, commands.splice(1));
                 break;
@@ -170,7 +180,7 @@ client.on("guildDelete", async guild => {
 //Event: Client sends message
 client.on("message", async message => {
     let messageArr = message.toString().split(" ");
-    if(messageArr[0] !== "/interrupter" || messageArr.length < 2) return; 
+    if(messageArr.length < 1 || messageArr[0] !== "/interrupter") return; 
     let interrupter = interrupterMap.get(message.guild.id);
     interrupter.commandHandler(message.channel, messageArr.splice(1));
 })
