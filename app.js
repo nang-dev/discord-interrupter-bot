@@ -93,7 +93,7 @@ class Interrupter {
                              'Valid commands: \n' +
                              'changeSound [' + [...validSounds].join('/') + ']\n' +
                              'help\n' +
-                             'Ex. !interrupter changeSound donnie'
+                             'Ex. /interrupter changeSound donnie'
                             );
                 break;
             default:
@@ -170,7 +170,7 @@ client.on("guildDelete", async guild => {
 //Event: Client sends message
 client.on("message", async message => {
     let messageArr = message.toString().split(" ");
-    if(messageArr[0] !== "!interrupter" || messageArr.length < 2) return; 
+    if(messageArr[0] !== "/interrupter" || messageArr.length < 2) return; 
     let interrupter = interrupterMap.get(message.guild.id);
     interrupter.commandHandler(message.channel, messageArr.splice(1));
 })
