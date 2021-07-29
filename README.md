@@ -3,7 +3,7 @@
 ![Logo](photos/logo.png)
 ![Screenshot](photos/screenshot.png)
 
-### A discord bot that interrupts a target when they talk.
+### A discord bot that interrupts a target whenever they talk.
  
 Like the **Donnie Thornberry Discord Bot** from TikTok, except public, for your use 😁.  
 
