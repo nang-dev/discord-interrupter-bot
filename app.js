@@ -28,17 +28,16 @@ class Interrupter {
     }
 
     setTargetRole(oldState, newState) {
-        if (this.targetRole == undefined) {
-            let aState = (oldState === null) ? newState : oldState;
-            this.targetRole = aState.guild.roles.cache.find((role) => {
-                return role.name == targetRoleName;
-            });
-            console.log(this.targetRole);
-        }
+        let aState = (oldState === null) ? newState : oldState;
+        this.targetRole = aState.guild.roles.cache.find((role) => {
+            return role.name == targetRoleName;
+        });
+        console.log(this.targetRole);
     }
 
     async voiceStateUpdateHandler(oldState, newState) { 
-        this.setTargetRole(oldState, newState);
+        if (this.targetRole == undefined)
+            this.setTargetRole(oldState, newState);
         if (newState.channelID === null) { 
             console.log('User left channel', oldState.channelID);
             let member = oldState.member;
