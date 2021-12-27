@@ -27,7 +27,7 @@ class Interrupter {
         this.sound = 'passion'
     }
 
-    setTargetRole() {
+    setTargetRole(oldState, newState) {
         if (this.targetRole == undefined) {
             let aState = (oldState === null) ? newState : oldState;
             this.targetRole = aState.guild.roles.cache.find((role) => {
@@ -38,7 +38,7 @@ class Interrupter {
     }
 
     async voiceStateUpdateHandler(oldState, newState) { 
-        this.setTargetRole();
+        this.setTargetRole(oldState, newState);
         if (newState.channelID === null) { 
             console.log('User left channel', oldState.channelID);
             let member = oldState.member;
